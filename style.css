@@ -1,0 +1,226 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.body {
+    background: linear-gradient(135deg, #fff5f5 0%, #fff0f5 50%, #f3efff 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.sembunyi {
+    display: none !important;
+}
+
+/* --- DESIGN FORM PERTANYAAN --- */
+.q1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+    background-color: rgba(255, 227, 249, 0.75);
+    backdrop-filter: blur(10px);
+    border: 2px solid #ff00a2;
+    padding: 40px 30px;
+    border-radius: 24px;
+    box-shadow: 0px 20px 40px rgba(255, 182, 193, 0.15);
+    text-align: center;
+    gap: 25px;
+}
+
+.q1 h1 {
+    color: #ff6584;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.q1 input {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: 2px solid #ffe3e8;
+    text-align: center;
+    font-size: 1rem;
+    outline: none;
+}
+
+.q1 button {
+    width: 100%;
+    max-width: 180px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #111111;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 6px 0px #cfb5bd;
+}
+
+/* --- FRAME SELECTOR --- */
+.frame-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+.select-buttons { display: flex; gap: 5px; }
+.frame-opt {
+    background-color: #fff2f5;
+    color: #ff7597;
+    border: 1px solid #ffe3e8;
+    padding: 6px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.frame-opt.aktif { background-color: #ff7597; color: white; border-color: #ff7597; }
+
+/* --- BINGKAI POLAROID --- */
+.polaroid-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.polaroid-card {
+    background-color: #ffffff;
+    padding: 20px 20px 35px 20px;
+    width: 100%;
+    max-width: 330px;
+    box-shadow: 0px 15px 35px rgba(231, 169, 181, 0.45);
+    border-radius: 4px;
+}
+
+.polaroid-photo {
+    background-color: #f7f7f7;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    gap: 6px;
+}
+
+/* Setup Layout Grid */
+.grid-1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.grid-2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.grid-3 .photo-slot:nth-child(3) { grid-column: span 2; } /* Slot 3 melebar di bawah */
+.grid-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+
+/* Styling Slot Masing-Masing Frame */
+.photo-slot {
+    background-color: #e8e8e8; /* Warna background abu-abu pas kosong */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* WEBCAM LIVE PREVIEW */
+#webcam {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Efek Cermin */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* HASIL JEPRETAN IMAGE MURNI */
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Menimpa video webcam di bawahnya */
+}
+
+.polaroid-caption {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: #5c4347;
+}
+.highlight { color: #ff7597; font-weight: bold; }
+.answer-text { font-style: italic; color: #8b5e66; word-break: break-word; }
+
+/* --- BUTTONS --- */
+.action-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 330px; }
+.done-buttons { display: flex; gap: 10px; width: 100%; }
+#snapBtn, #retakeBtn, #downloadBtn {
+    width: 100%; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; color: white;
+}
+#snapBtn { background-color: #ff7597; }
+#retakeBtn { background-color: #9c27b0; }
+#downloadBtn { background-color: #4CAF50; }
+
+/* --- ANIMASI TAMBAHAN --- */
+
+/* 1. Animasi muncul halus (Fade In Up) */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.q1, .polaroid-wrapper {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* 2. Efek melayang untuk Polaroid */
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.polaroid-card {
+    animation: floating 3s ease-in-out infinite;
+}
+
+/* 3. Efek denyut untuk tombol Take Photo */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#snapBtn {
+    animation: pulse 2s infinite;
+    transition: transform 0.2s;
+}
+
+#snapBtn:hover {
+    animation: none; /* Berhenti berdenyut saat kursor di atas */
+    transform: scale(1.1);
+}
+
+/* Tambahan: Transisi halus saat ganti tombol */
+button {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+button:active {
+    transform: scale(0.95);
+}

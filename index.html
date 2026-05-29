@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaroid App</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body class="body">
+
+    <div class="q1" id="box1">
+        <h1>LOGIN</h1>
+        <input type="text" id="input1" placeholder="MASUKAN JAWABAN">
+        <button type="button" id="btn1">SUBMIT</button>
+    </div>
+
+    <div class="q1 sembunyi" id="box2">
+        <h1>HAL YANG PALING KAMU SUKAI</h1>
+        <input type="text" id="input2" placeholder="MASUKAN JAWABAN">
+        <button type="button" id="btn2">SUBMIT</button>
+    </div>
+
+    <div class="q1 sembunyi" id="box3">
+        <h1>HAL APA YANG KAMU BENCI</h1>
+        <input type="text" id="input3" placeholder="MASUKAN JAWABAN">
+        <button type="button" id="btn3">SUBMIT</button>
+    </div>
+
+    <div class="polaroid-wrapper sembunyi" id="polaroidView">
+        
+        <div class="frame-selector" id="frameSelectorArea">
+            <label>Pilih Jumlah Foto:</label>
+            <div class="select-buttons">
+                <button type="button" class="frame-opt aktif" data-frame="1">1 Foto</button>
+                <button type="button" class="frame-opt" data-frame="2">2 Foto</button>
+                <button type="button" class="frame-opt" data-frame="3">3 Foto</button>
+                <button type="button" class="frame-opt" data-frame="4">4 Foto</button>
+            </div>
+        </div>
+
+        <div class="polaroid-card" id="cetakArea">
+            <div class="polaroid-photo grid-1" id="photoContainer">
+                </div>
+            
+            <div class="polaroid-caption">
+                <p>Halo, <span id="hasilNama" class="highlight">...</span>! 🌸</p>
+                <p><br><span id="hasilBenci" class="answer-text">...</span></p>
+            </div>
+        </div>
+
+        <video id="webcam" autoplay playsinline class="sembunyi"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <div class="action-buttons">
+            <button type="button" id="snapBtn">📸 TAKE PHOTO</button>
+            <div class="done-buttons">
+                <button type="button" id="retakeBtn" class="sembunyi">🔄 RETAKE PHOTO</button>
+                <button type="button" id="downloadBtn" class="sembunyi">💾 DOWNLOAD</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
